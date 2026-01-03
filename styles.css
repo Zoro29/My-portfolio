@@ -398,6 +398,14 @@ body {
     50% { transform: translateY(-5px) rotate(5deg); }
 }
 
+/* Education card spacing */
+.education-info .edu-entry {
+    margin-bottom: 1rem;
+}
+.education-info .edu-entry:last-child {
+    margin-bottom: 0;
+}
+
 .menu-title {
     font-family: 'Press Start 2P', cursive;
     font-size: 14px;
