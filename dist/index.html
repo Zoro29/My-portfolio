@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krish Patel v2025</title>
+    <meta name="description" content="Krish Patel's retro RPG-themed portfolio. Software Engineer, full-stack developer, and tech mentor. Explore projects, skills, and achievements.">
+<meta name="keywords" content="Krish Patel, portfolio, software engineer, full-stack, developer, projects, achievements, IIIT Raichur, JavaScript, React, Node.js">
+<meta name="author" content="Krish Patel">
+<meta property="og:title" content="Krish Patel v2025">
+<meta property="og:description" content="Explore Krish Patel's interactive portfolio. Projects, skills, and more!">
+<meta property="og:image" content="krish.jpeg">
+<meta property="og:type" content="website"> 
+<meta property="og:url" content="https://my-portfolio-qamv.onrender.com/">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/assets/krish-Dsq2gFVH.jpg" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P:wght@400&family=VT323:wght@400&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/index-DF-y9nDz.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-qBk2F-xL.css">
+</head>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KSKF2TRR6B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KSKF2TRR6B');
+</script>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="pixel-avatar">
+                    <img src="/assets/krish-Dsq2gFVH.jpg" alt="KRISH PATEL Avatar"  />
+                </div>
+                <h1 class="glitch-text">KRISH PATEL</h1>
+                <p class="loading-subtitle">SOFTWARE ENGINEER</p>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <p class="loading-text">Loading Portfolio: KRISH PATEL v2025...</p>
+                <p class="loading-percentage">0%</p>
+            </div>
+            <button id="start-btn" class="start-button" style="display: none;">
+                <span class="button-text">START GAME</span>
+                <div class="button-glow"></div>
+            </button>
+        </div>
+        <div class="scanlines"></div>
+    </div>
+
+    <!-- Main Game Interface -->
+    <div id="main-game" class="main-game" style="display: none;">
+        <!-- Background Effects -->
+        <div class="stars"></div>
+        <div class="scanlines"></div>
+        
+        <!-- Audio Controls -->
+        <div class="audio-controls">
+            <button id="mute-btn" class="audio-btn">
+                <span class="audio-icon">🔊</span>
+            </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="game-menu">
+            <div class="menu-header">
+                <div class="pixel-logo"></div>
+                <h2 class="menu-title">LEVEL SELECT</h2>
+            </div>
+            <ul class="level-list">
+                <li><button class="level-btn active" data-level="about">🎮 LVL 1: ABOUT ME</button></li>
+                <li><button class="level-btn" data-level="skills">⚙️ LVL 2: SKILLS</button></li>
+                <li><button class="level-btn" data-level="projects">🚀 LVL 3: PROJECTS</button></li>
+                <li><button class="level-btn" data-level="achievements">🏆 LVL 4: ACHIEVEMENTS</button></li>
+                <li><button class="level-btn" data-level="contact">🕹️ LVL 5: CONTACT</button></li>
+            </ul>
+            <div class="menu-footer">
+                <div class="player-stats">
+                    <p>PLAYER: KRISH</p>
+                    <p>CLASS: ROBOTICS ENGINEER</p>
+                    <p>LEVEL: JUNIER</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Game Content Area -->
+        <main class="game-screen">
+            <!-- Level 1: About Me -->
+            <section id="about" class="level-content active">
+                <div class="level-header">
+                    <h2 class="level-title">LEVEL 1: ABOUT ME</h2>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 100%"></div>
+                        <span class="health-text">HP: 100/100</span>
+                    </div>
+                </div>
+                <div class="level-body">
+                    <div class="character-area">
+                        <div class="character-sprite">
+                            <!-- <div class="pixel-character"></div> -->
+                            <img src="/assets/krish-Dsq2gFVH.jpg" alt="Krish Patel" class="profile-pic" />
+                            <div class="character-shadow"></div>
+                        </div>
+                        <div class="character-details">
+                            <h3 class="character-name">Krish Patel</h3>
+                            <p class="character-class">Software Engineer</p>
+                            <div class="character-stats">
+                                <div class="stat">
+                                    <span class="stat-label">EXP:</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-fill" style="width: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">SKILL:</span>
+                                    <div class="stat-bar">
+                                        <div class="stat-fill" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-panel">
+                        <div class="dialogue-box">
+                            <div class="dialogue-header">
+                                <span class="speaker">KRISH PATEL</span>
+                                <span class="dialogue-indicator">▼</span>
+                            </div>
+                            <div class="dialogue-content">
+                                <p class="typewriter-text">
+                                    I am a computer engineering student who likes building things that actually doesn't exist, not just slide decks and promises. I work across software and hardware because choosing only one feels limiting, and I do rather understand how systems behave end to end.
+                                </p>
+                                <p class="typewriter-text" data-delay="2000">
+                                    I have explored backend development and problem-solving through hackathons and projects, including reaching the finals of the NASA Space Apps Challenge. I learn fastest by doing, breaking things, and fixing them again instead of memorizing answers.
+                                </p>
+                                <p class="typewriter-text" data-delay="4000">
+                                    I'm focused on improving my skills every day and building meaningful work, whether that's code, systems, or products in education and technology. Progress matters more to me than titles, and I am here to get better, not pretend I already am.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="education-card">
+                            <h4 class="card-title">📚 EDUCATION STATS</h4>
+                            <div class="education-info">
+                                <div class="edu-entry">
+                                    <p><strong>Institution:</strong> KSV Gandhinagar</p>
+                                    <p><strong>Degree:</strong> BE - CSE</p>
+                                    <p><strong>CGPA:</strong> 0 / 10.0</p>
+                                    <p><strong>Expected:</strong> 2029</p>
+                                    <p><strong>Courses:</strong> C Language , FOP</p>
+                                </div>
+
+                                <div class="edu-entry">
+                                    <p><strong>Institution:</strong> University Of Regina</p>
+                                    <p><strong>Degree:</strong> BSC</p>
+                                    <p><strong>CGPA:</strong> 8.5 / 10.0</p>
+                                    <p><strong>Expected:</strong> Drooped OUT</p>
+                                    <p><strong>Courses:</strong> C++ , DSA , OOPs , Art of Problem Solving</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level 2: Skills -->
+            <section id="skills" class="level-content">
+                <div class="level-header">
+                    <h2 class="level-title">LEVEL 2: TECHNICAL SKILLS</h2>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 95%"></div>
+                        <span class="health-text">MP: 95/100</span>
+                    </div>
+                </div>
+                <div class="level-body">
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3 class="category-title">⚔️ PROGRAMMING LANGUAGES</h3>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <span class="skill-name">JavaScript</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 95%"></div>
+                                        <span class="skill-percentage">95%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">TypeScript</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 85%"></div>
+                                        <span class="skill-percentage">85%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Python</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 88%"></div>
+                                        <span class="skill-percentage">88%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">C++</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 100%"></div>
+                                        <span class="skill-percentage">100%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">C</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 80%"></div>
+                                        <span class="skill-percentage">80%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3 class="category-title">🛡️ TECHNOLOGIES & FRAMEWORKS</h3>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <span class="skill-name">React.js</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 92%"></div>
+                                        <span class="skill-percentage">92%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Node.js</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 90%"></div>
+                                        <span class="skill-percentage">90%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Express.js</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 88%"></div>
+                                        <span class="skill-percentage">88%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Socket.io</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 85%"></div>
+                                        <span class="skill-percentage">85%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Docker</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 75%"></div>
+                                        <span class="skill-percentage">75%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">🔮 DATABASES & TOOLS</h3>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <span class="skill-name">AWS</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 90%"></div>
+                                        <span class="skill-percentage">90%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Supabase</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 95%"></div>
+                                        <span class="skill-percentage">95%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">PostgreSQL</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 85%"></div>
+                                        <span class="skill-percentage">85%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Chakra UI</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 80%"></div>
+                                        <span class="skill-percentage">80%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Leaflet.js</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 78%"></div>
+                                        <span class="skill-percentage">78%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">🔬 AI/ML MODELS</h3>
+                            <div class="skill-items">
+                                <div class="skill-item">
+                                    <span class="skill-name">YOLOv8</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 70%"></div>
+                                        <span class="skill-percentage">70%</span>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">OCR</span>
+                                    <div class="skill-level">
+                                        <div class="skill-progress" style="width: 72%"></div>
+                                        <span class="skill-percentage">72%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level 3: Projects -->
+            <section id="projects" class="level-content">
+                <div class="level-header">
+                    <h2 class="level-title">LEVEL 3: PROJECT QUESTS</h2>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 98%"></div>
+                        <span class="health-text">XP: 98/100</span>
+                    </div>
+                </div>
+                <div class="level-body">
+                    <div class="projects-grid">
+                        <div class="project-card legendary">
+                            <div class="card-header">
+                                <h3 class="project-title">A World Away</h3>
+                                <span class="project-rarity">LEGENDARY</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="project-description">
+                                    I helped build a system that turned NASA space data into clear, usable insights to solve a real-world problem during the Space Apps Challenge.
+                                </p>
+                                <div class="project-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Impact:</span>
+                                        <span class="stat-value">35% Efficiency Boost</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Response Time:</span>
+                                        <span class="stat-value">20% Faster</span>
+                                    </div>
+                                </div>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">React.js</span>
+                                    <span class="tech-tag">Node.js</span>
+                                    <span class="tech-tag">PostgreSQL</span>
+                                    <span class="tech-tag">Docker</span>
+                                    <span class="tech-tag">Python</span>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="https://aworldaway.earth" target="_blank" class="action-btn">🌐 DEMO</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card legendary">
+                            <div class="card-header">
+                              <h3 class="project-title">Place Holder Website</h3>
+                              <span class="project-rarity">LEGENDARY</span>
+                            </div>
+                            <div class="card-body">
+                              <p class="project-description">
+                                Designed and launched the landing page for <strong>Learnova</strong>, It builds learning that creates real skills, not just certificates.
+                              </p>
+                              <div class="project-stats">
+                                <div class="stat-item">
+                                  <span class="stat-label">Status:</span>
+                                  <span class="stat-value">Landing Page Live</span>
+                                </div>
+                                <div class="stat-item">
+                                  <span class="stat-label">Platform:</span>
+                                  <span class="stat-value">Ed-Tech (In Progress)</span>
+                                </div>
+                              </div>
+                              <div class="tech-stack">
+                                <span class="tech-tag">React.js</span>
+                                <span class="tech-tag">TailwindCSS</span>
+                                <span class="tech-tag">Node.js</span>
+                              </div>
+                              <div class="card-actions">
+                                <a href="https://learnova.earth" target="_blank" class="action-btn">🌌 VIEW LANDING PAGE</a>
+                              </div>
+                            </div>
+                          </div>
+                                              
+
+                        <div class="project-card epic">
+                            <div class="card-header">
+                                <h3 class="project-title">Learnova</h3>
+                                <span class="project-rarity">EPIC</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="project-description">
+                                    I developed an ed-tech website focused on building real, practical skills. It offers hands-on learning experiences rather than just certificates.
+                                <div class="project-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Users:</span>
+                                        <span class="stat-value">100+ Testers</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="stat-label">Platform:</span>
+                                        <span class="stat-value">Full-Stack Web</span>
+                                    </div>
+                                </div>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">Supabase</span>
+                                    <span class="tech-tag">React</span>
+                                    <span class="tech-tag">Node.js</span>
+                                    <span class="tech-tag">AWS</span>
+                                    <span class="tech-tag">Docker</span>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="https://frontend-one-chi-56.vercel.app/" target="_blank" class="action-btn">🚀 LIVE SITE</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="project-card rare">
+                            <div class="card-header">
+                                <h3 class="project-title">Solar System</h3>
+                                <span class="project-rarity">RARE</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="project-description">
+                                   I built a simple solar system project to understand planetary motion and space concepts.
+                                </p>
+                                <div class="project-stats">
+                                    <div class="stat-item">
+                                        <span class="stat-label">Features:</span>
+                                    </div>
+
+                                </div>
+                                <div class="tech-stack">
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">HTML</span>
+                                    <span class="tech-tag">CSS</span>
+                                </div>
+                                <div class="card-actions">
+                                    <a href="https://zoro29.github.io/Solar-System/" target="_blank" class="action-btn">💬 DEMO</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level 4: Achievements -->
+            <section id="achievements" class="level-content">
+                <div class="level-header">
+                    <h2 class="level-title">LEVEL 4: ACHIEVEMENTS UNLOCKED</h2>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 100%"></div>
+                        <span class="health-text">SCORE: MAX</span>
+                    </div>
+                </div>
+                <div class="level-body">
+                    <div class="achievements-grid">
+                        <div class="achievement-card gold">
+                            <div class="achievement-icon">🏆</div>
+                            <div class="achievement-content">
+                                <h3 class="achievement-title">TOP 1.3% CODER</h3>
+                                <p class="achievement-description">
+                                    Ranked in top 1.3% in Coding Hackathon among 50,000+ students at AlgoUniversity Tech Fellowship
+                                </p>
+                                <div class="achievement-stats">
+                                    <span class="stat">50,000+ Participants</span>
+                                    <span class="stat">Top 1.3% Rank</span>
+                                </div>
+                            </div>
+                            <div class="achievement-glow"></div>
+                        </div>
+
+                        <div class="achievement-card silver">
+                            <div class="achievement-icon">🥈</div>
+                            <div class="achievement-content">
+                                <h3 class="achievement-title">Nasa Space app Challenge Finalist</h3>
+                                <p class="achievement-description">
+                                    Top 45 finalist in the NASA Space Apps Challenge among 11,000+ participants, building a real-time space-data solution using modern technologies.
+                                </p>
+                                <div class="achievement-stats">
+                                    <span class="stat">11,000+ Competitors</span>
+                                    <span class="stat">Top 45 Finish</span>
+                                </div>
+                            </div>
+                            <div class="achievement-glow"></div>
+                        </div>
+
+                        <div class="achievement-card bronze">
+                            <div class="achievement-icon">💻</div>
+                            <div class="achievement-content">
+                                <h3 class="achievement-title">DSA MASTER</h3>
+                                <p class="achievement-description">
+                                    Solved Advanced Data Structures & Algorithms problems.
+                                </p>
+                                <div class="achievement-stats">
+                                    <span class="stat">50+ Advance Problems</span>
+                                </div>
+                            </div>
+                            <div class="achievement-glow"></div>
+                        </div>
+
+
+                        <div class="achievement-card legendary">
+                            <div class="achievement-icon">🚀</div>
+                            <div class="achievement-content">
+                                <h3 class="achievement-title">Putnam Participant</h3>
+                                <p class="achievement-description">
+                                    Participated in the Putnam Mathematical Competition, tackling high-level problem-solving under intense time pressure.
+                                </p>
+                                <div class="achievement-stats">
+                                    <span class="stat">Consistent Work</span>
+                                    <span class="stat">Sep-Dec 2024</span>
+                                </div>
+                            </div>
+                            <div class="achievement-glow"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Level 5: Contact -->
+            <section id="contact" class="level-content">
+                <div class="level-header">
+                    <h2 class="level-title">LEVEL 5: CONTACT & INVENTORY</h2>
+                    <div class="health-bar">
+                        <div class="health-fill" style="width: 100%"></div>
+                        <span class="health-text">READY!</span>
+                    </div>
+                </div>
+                <div class="level-body">
+                    <div class="contact-grid">
+                        <div class="contact-info">
+                            <div class="character-contact">
+                                <div class="contact-avatar">
+                                    <img src="/assets/krish-Dsq2gFVH.jpg" alt="Krish Patel Avatar" />
+                                </div>
+                                <div class="contact-details">
+                                    <h3>KRISH PATEL</h3>
+                                    <p class="contact-title">Software Engineer</p>
+                                    <div class="contact-links">
+                                        <a href="mailto:kp290805@gmail.com" class="contact-link">
+                                            <span class="contact-icon">📧</span>
+                                            <span>kp290805@gmail.com</span>
+                                        </a>
+                                        <a href="tel:+917622863046" class="contact-link">
+                                            <span class="contact-icon">📱</span>
+                                            <span>+91-7622863046</span>
+                                        </a>
+                                        <a href="https://www.linkedin.com/in/krish29/" target="_blank" class="contact-link">
+                                            <span class="contact-icon">🔗</span>
+                                            <span>LinkedIn Profile</span>
+                                        </a>
+                                        <a href="https://github.com/zoro29" target="_blank" class="contact-link">
+                                            <span class="contact-icon">🐙</span>
+                                            <span>GitHub Profile</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="inventory-panel">
+                            <h3 class="inventory-title">📦 INVENTORY</h3>
+                            <div class="inventory-grid">
+                                <div class="inventory-item legendary" id="resume-item">
+                                    <div class="item-icon">📄</div>
+                                    <div class="item-info">
+                                        <h4 class="item-name">resume.PDF</h4>
+                                        <p class="item-description">A legendary document containing all my professional adventures and achievements</p>
+                                        <div class="item-stats">
+                                            <span class="item-stat">Rarity: LEGENDARY</span>
+                                            <span class="item-stat">Level: 2025</span>
+                                        </div>
+                                        <!-- <button class="use-item-btn">
+                                            <span>📥 DOWNLOAD</span>
+                                        </button> -->
+                                        <a href="resume.pdf" download>
+                                            <button class="use-item-btn">
+                                                <span>📥 DOWNLOAD</span>
+                                            </button>
+                                        </a>                                        
+                                    </div>
+                                    <div class="item-glow"></div>
+                                </div>
+
+                                <div class="inventory-item epic">
+                                    <div class="item-icon">🌐</div>
+                                    <div class="item-info">
+                                        <h4 class="item-name">PORTFOLIO WEBSITE</h4>
+                                        <p class="item-description">An interactive retro gaming experience showcasing my work</p>
+                                        <div class="item-stats">
+                                            <span class="item-stat">Rarity: EPIC</span>
+                                            <span class="item-stat">Type: EXPERIENCE</span>
+                                        </div>
+                                        <button class="use-item-btn active">
+                                            <span>✨ ACTIVE</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="inventory-item rare">
+                                    <div class="item-icon">🎯</div>
+                                    <div class="item-info">
+                                        <h4 class="item-name">CODING SKILLS</h4>
+                                        <p class="item-description">A collection of programming languages and frameworks mastered through countless hours</p>
+                                        <div class="item-stats">
+                                            <span class="item-stat">Rarity: RARE</span>
+                                            <span class="item-stat">Stack: FULL</span>
+                                        </div>
+                                        <button class="use-item-btn">
+                                            <span>⚡ EQUIPPED</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="inventory-item common">
+                                    <div class="item-icon">☕</div>
+                                    <div class="item-info">
+                                        <h4 class="item-name">COFFEE BEANS</h4>
+                                        <p class="item-description">Essential fuel for late-night coding sessions and debugging marathons</p>
+                                        <div class="item-stats">
+                                            <span class="item-stat">Quantity: ∞</span>
+                                            <span class="item-stat">Effect: +100 Focus</span>
+                                        </div>
+                                        <button class="use-item-btn">
+                                            <span>🔄 INFINITE</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="game-over-panel">
+                        <h3>🎮 GAME COMPLETED!</h3>
+                        <p>Thank you for exploring my digital realm! Ready to embark on new coding adventures together?</p>
+                        <div class="final-stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Experience Points:</span>
+                                <span class="stat-value">9999+</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Projects Completed:</span>
+                                <span class="stat-value">5+</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Lines of Code:</span>
+                                <span class="stat-value">100,000+</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Coffee Consumed:</span>
+                                <span class="stat-value">∞</span>
+                            </div>
+                        </div>
+                        <button class="restart-btn">
+                            <span>🔄 RESTART GAME</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Audio Elements -->
+    <!-- <audio id="bg-music" loop>
+        <source src="data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAASAAAOsAAhISEhMTExMTExQUFBQUFBUVFRUVFRYWFhYWFhcXFxcXFxgYGBgYGBkZGRkZGRoaGhoaGhsbGxsbGxwcHBwcHB0dHR0dHR4eHh4eHh7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+8AAAAATGF2YzU4LjEzAAAAAAAAAAAAAAAAJAQKAAAAAAAADrAAAAAAAAAAAAAAAAAAAAD/+xDEAAPAAAGkAAAAIAAANIAAAARMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" type="audio/mpeg">
+    </audio> -->
+
+</body>
+</html>
