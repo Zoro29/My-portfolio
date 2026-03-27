@@ -5,10 +5,32 @@ class RetroPortfolio {
         this.loadingProgress = 0;
         this.isMuted = false;
         this.soundsEnabled = true;
+
+        this.gameStarted = false;
+
+        // Cached DOM references (populated in cacheDom())
+        this.dom = {};
+
+        // Timers/loops
+        this.loadingIntervalId = null;
+        this.loadingBeepIntervalId = null;
+        this.bgIntervalId = null;
+        this.parallaxIntervalId = null;
+
+        // Audio (lazy-init to avoid autoplay restrictions)
+        this.audioContext = null;
+        this.bgOscillator = null;
+        this.bgGainNode = null;
+
+        // Simple throttles
+        this.lastHoverSoundAt = 0;
+        this.lastParticleAt = 0;
+
         this.init();
     }
 
     init() {
+        this.cacheDom();
         this.setupEventListeners();
         this.startLoadingSequence();
         this.setupAudio();
@@ -18,9 +40,45 @@ class RetroPortfolio {
         this.setupMobileMenu();
     }
 
+    cacheDom() {
+        this.dom.startBtn = document.getElementById('start-btn');
+        this.dom.loadingScreen = document.getElementById('loading-screen');
+        this.dom.mainGame = document.getElementById('main-game');
+        this.dom.bgMusic = document.getElementById('bg-music');
+        this.dom.audioIcon = document.querySelector('.audio-icon');
+        this.dom.gameMenu = document.querySelector('.game-menu');
+    }
+
+    ensureAudioContext() {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return null;
+
+        if (!this.audioContext) {
+            try {
+                this.audioContext = new AudioCtx();
+            } catch {
+                return null;
+            }
+        }
+
+        // Some browsers start AudioContext suspended until user interaction.
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume().catch(() => {});
+        }
+
+        return this.audioContext;
+    }
+
+    playSoundThrottled(type, minIntervalMs = 100) {
+        const now = Date.now();
+        if (now - this.lastHoverSoundAt < minIntervalMs) return;
+        this.lastHoverSoundAt = now;
+        this.playSound(type);
+    }
+
     setupEventListeners() {
         // Start button
-        const startBtn = document.getElementById('start-btn');
+        const startBtn = this.dom.startBtn || document.getElementById('start-btn');
         if (startBtn) {
             startBtn.addEventListener('click', () => this.startGame());
         }
@@ -41,12 +99,6 @@ class RetroPortfolio {
             muteBtn.addEventListener('click', () => this.toggleAudio());
         }
 
-        // Resume download
-        const resumeBtn = document.getElementById('resume-item');
-        if (resumeBtn) {
-            resumeBtn.addEventListener('click', () => this.downloadResume());
-        }
-
         // Restart game
         const restartBtn = document.querySelector('.restart-btn');
         if (restartBtn) {
@@ -60,14 +112,20 @@ class RetroPortfolio {
     startLoadingSequence() {
         const loadingProgress = document.querySelector('.loading-progress');
         const loadingPercentage = document.querySelector('.loading-percentage');
-        const startBtn = document.getElementById('start-btn');
+        const startBtn = this.dom.startBtn || document.getElementById('start-btn');
 
-        const loadingInterval = setInterval(() => {
+        if (this.loadingIntervalId) {
+            clearInterval(this.loadingIntervalId);
+            this.loadingIntervalId = null;
+        }
+
+        this.loadingIntervalId = setInterval(() => {
             this.loadingProgress += Math.random() * 3 + 1;
             
             if (this.loadingProgress >= 100) {
                 this.loadingProgress = 100;
-                clearInterval(loadingInterval);
+                clearInterval(this.loadingIntervalId);
+                this.loadingIntervalId = null;
                 
                 setTimeout(() => {
                     if (startBtn) {
@@ -91,41 +149,59 @@ class RetroPortfolio {
 
     playLoadingBeeps() {
         let beepCount = 0;
-        const beepInterval = setInterval(() => {
+
+        if (this.loadingBeepIntervalId) {
+            clearInterval(this.loadingBeepIntervalId);
+            this.loadingBeepIntervalId = null;
+        }
+
+        this.loadingBeepIntervalId = setInterval(() => {
             if (this.soundsEnabled) {
                 this.createBeep(400 + (beepCount * 50), 100);
             }
             beepCount++;
             
             if (beepCount >= 10 || this.loadingProgress >= 100) {
-                clearInterval(beepInterval);
+                clearInterval(this.loadingBeepIntervalId);
+                this.loadingBeepIntervalId = null;
             }
         }, 200);
     }
 
     createBeep(frequency, duration) {
-        if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
+        const audioContext = this.ensureAudioContext();
+        if (this.isMuted || !this.soundsEnabled || !audioContext) return;
 
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
 
-            oscillator.frequency.value = frequency;
-            oscillator.type = 'square';
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
 
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+        oscillator.frequency.value = frequency;
+        oscillator.type = 'square';
 
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + duration / 1000);
-        }
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + duration / 1000);
+
+        oscillator.onended = () => {
+            try { oscillator.disconnect(); } catch {}
+            try { gainNode.disconnect(); } catch {}
+        };
     }
 
     startGame() {
-        const loadingScreen = document.getElementById('loading-screen');
-        const mainGame = document.getElementById('main-game');
+        if (this.gameStarted) return;
+        this.gameStarted = true;
+
+        // Ensure audio can start after a user gesture
+        this.ensureAudioContext();
+
+        const loadingScreen = this.dom.loadingScreen || document.getElementById('loading-screen');
+        const mainGame = this.dom.mainGame || document.getElementById('main-game');
 
         this.playSound('game-start');
         
@@ -289,7 +365,7 @@ class RetroPortfolio {
     }
 
     setupAudio() {
-        const bgMusic = document.getElementById('bg-music');
+        const bgMusic = this.dom.bgMusic || document.getElementById('bg-music');
         if (bgMusic) {
             bgMusic.volume = 0.3;
         }
@@ -297,7 +373,7 @@ class RetroPortfolio {
 
     startBackgroundMusic() {
         if (!this.isMuted) {
-            const bgMusic = document.getElementById('bg-music');
+            const bgMusic = this.dom.bgMusic || document.getElementById('bg-music');
             if (bgMusic) {
                 // Create a simple 8-bit style melody using Web Audio API
                 this.createBackgroundMusic();
@@ -306,38 +382,62 @@ class RetroPortfolio {
     }
 
     createBackgroundMusic() {
-        if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
+        const audioContext = this.ensureAudioContext();
+        if (!audioContext) return;
 
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
+        // Prevent duplicate background loops when starting/restarting.
+        if (this.bgOscillator || this.bgIntervalId) return;
 
-            oscillator.frequency.value = 220; // A note
-            oscillator.type = 'square';
-            
-            gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
-            
-            oscillator.start(audioContext.currentTime);
-            
-            // Create a simple melody pattern
-            const notes = [220, 246.94, 261.63, 293.66, 329.63, 349.23, 392.00];
-            let noteIndex = 0;
-            
-            setInterval(() => {
-                if (!this.isMuted && this.soundsEnabled) {
-                    oscillator.frequency.value = notes[noteIndex % notes.length];
-                    noteIndex++;
-                }
-            }, 2000);
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = 220; // A note
+        oscillator.type = 'square';
+
+        gainNode.gain.setValueAtTime(this.isMuted ? 0.0 : 0.05, audioContext.currentTime);
+
+        oscillator.start(audioContext.currentTime);
+
+        this.bgOscillator = oscillator;
+        this.bgGainNode = gainNode;
+
+        // Create a simple melody pattern
+        const notes = [220, 246.94, 261.63, 293.66, 329.63, 349.23, 392.0];
+        let noteIndex = 0;
+
+        this.bgIntervalId = setInterval(() => {
+            if (!this.isMuted && this.soundsEnabled && this.bgOscillator) {
+                this.bgOscillator.frequency.value = notes[noteIndex % notes.length];
+                noteIndex++;
+            }
+        }, 2000);
+    }
+
+    stopBackgroundMusic() {
+        if (this.bgIntervalId) {
+            clearInterval(this.bgIntervalId);
+            this.bgIntervalId = null;
+        }
+
+        if (this.bgOscillator) {
+            try { this.bgOscillator.stop(); } catch {}
+            try { this.bgOscillator.disconnect(); } catch {}
+            this.bgOscillator = null;
+        }
+
+        if (this.bgGainNode) {
+            try { this.bgGainNode.disconnect(); } catch {}
+            this.bgGainNode = null;
         }
     }
 
     toggleAudio() {
         this.isMuted = !this.isMuted;
-        const audioIcon = document.querySelector('.audio-icon');
-        const bgMusic = document.getElementById('bg-music');
+        const audioIcon = this.dom.audioIcon || document.querySelector('.audio-icon');
+        const bgMusic = this.dom.bgMusic || document.getElementById('bg-music');
         
         if (audioIcon) {
             audioIcon.textContent = this.isMuted ? '🔇' : '🔊';
@@ -345,6 +445,12 @@ class RetroPortfolio {
         
         if (bgMusic) {
             bgMusic.muted = this.isMuted;
+        }
+
+        if (this.bgGainNode && this.audioContext) {
+            try {
+                this.bgGainNode.gain.setValueAtTime(this.isMuted ? 0.0 : 0.05, this.audioContext.currentTime);
+            } catch {}
         }
         
         this.soundsEnabled = !this.isMuted;
@@ -370,15 +476,14 @@ class RetroPortfolio {
         
         // Create a temporary download link
         const link = document.createElement('a');
-        link.href = '#'; // Replace with actual resume PDF URL when available
-        link.download = 'Amrita_Kadam_Resume_2025.pdf';
-        
-        // Show download notification
-        this.showNotification('Resume download would start here! (Demo mode)', 'success');
-        
-        // In a real implementation, you would have:
-        // link.href = 'path/to/your/resume.pdf';
-        // link.click();
+        link.href = 'resume.pdf';
+        link.download = 'resume.pdf';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        this.showNotification('Downloading resume...', 'success');
     }
 
     showNotification(message, type = 'info') {
@@ -411,10 +516,23 @@ class RetroPortfolio {
 
     restartGame() {
         this.playSound('game-start');
+
+        // Prevent runaway intervals/loops across restarts.
+        this.stopBackgroundMusic();
+        if (this.loadingIntervalId) {
+            clearInterval(this.loadingIntervalId);
+            this.loadingIntervalId = null;
+        }
+        if (this.loadingBeepIntervalId) {
+            clearInterval(this.loadingBeepIntervalId);
+            this.loadingBeepIntervalId = null;
+        }
+
+        this.gameStarted = false;
         
         // Reset to loading screen
-        const loadingScreen = document.getElementById('loading-screen');
-        const mainGame = document.getElementById('main-game');
+        const loadingScreen = this.dom.loadingScreen || document.getElementById('loading-screen');
+        const mainGame = this.dom.mainGame || document.getElementById('main-game');
         
         if (mainGame) {
             mainGame.style.display = 'none';
@@ -427,7 +545,7 @@ class RetroPortfolio {
         
         // Reset progress and restart
         this.loadingProgress = 0;
-        const startBtn = document.getElementById('start-btn');
+        const startBtn = this.dom.startBtn || document.getElementById('start-btn');
         if (startBtn) {
             startBtn.style.display = 'none';
         }
@@ -442,7 +560,7 @@ class RetroPortfolio {
         const projectCards = document.querySelectorAll('.project-card');
         projectCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
-                this.playSound('menu-click');
+                this.playSoundThrottled('menu-click', 100);
                 card.style.transform = 'translateY(-10px) scale(1.02)';
             });
             
@@ -455,7 +573,7 @@ class RetroPortfolio {
         const achievementCards = document.querySelectorAll('.achievement-card');
         achievementCards.forEach(card => {
             card.addEventListener('mouseenter', () => {
-                this.playSound('menu-click');
+                this.playSoundThrottled('menu-click', 100);
             });
         });
 
@@ -481,12 +599,13 @@ class RetroPortfolio {
         const allButtons = document.querySelectorAll('button, .action-btn');
         allButtons.forEach(button => {
             button.addEventListener('mouseenter', () => {
-                this.playSound('menu-click');
+                this.playSoundThrottled('menu-click', 100);
             });
         });
     }
 
     setupParallaxEffects() {
+        if (this.parallaxIntervalId) return;
         let ticking = false;
 
         const updateParallax = () => {
@@ -519,7 +638,7 @@ class RetroPortfolio {
         window.addEventListener('scroll', requestTick);
         
         // Start the character animation
-        setInterval(() => {
+        this.parallaxIntervalId = setInterval(() => {
             if (!ticking) {
                 updateParallax();
             }
@@ -533,8 +652,8 @@ class RetroPortfolio {
         // Setup inventory item interactions
         const inventoryItems = document.querySelectorAll('.inventory-item');
         inventoryItems.forEach(item => {
-            item.addEventListener('click', () => {
-                this.handleInventoryClick(item);
+            item.addEventListener('click', (event) => {
+                this.handleInventoryClick(item, event);
             });
         });
         
@@ -542,7 +661,7 @@ class RetroPortfolio {
         const contactLinks = document.querySelectorAll('.contact-link');
         contactLinks.forEach(link => {
             link.addEventListener('mouseenter', () => {
-                this.playSound('menu-click');
+                this.playSoundThrottled('menu-click', 100);
             });
         });
     }
@@ -552,6 +671,9 @@ class RetroPortfolio {
         
         containers.forEach(container => {
             container.addEventListener('click', (e) => {
+                const now = Date.now();
+                if (now - this.lastParticleAt < 150) return;
+                this.lastParticleAt = now;
                 this.createParticleExplosion(e.clientX, e.clientY);
             });
         });
@@ -607,21 +729,29 @@ class RetroPortfolio {
         this.playSound('menu-select');
     }
 
-    handleInventoryClick(item) {
-        const itemName = item.querySelector('.item-name').textContent;
-        
-        if (itemName === 'RESUME.PDF') {
+    handleInventoryClick(item, event) {
+        const itemNameEl = item.querySelector('.item-name');
+        const itemName = itemNameEl ? itemNameEl.textContent.trim() : 'ITEM';
+
+        if (item.id === 'resume-item') {
+            // If the user clicked the explicit download link/button, let the browser handle it.
+            if (event?.target && event.target.closest('a')) {
+                this.playSound('level-complete');
+                return;
+            }
+
             this.downloadResume();
-        } else {
-            this.playSound('menu-click');
-            this.showNotification(`Used ${itemName}!`, 'success');
-            
-            // Add visual feedback
-            item.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                item.style.transform = 'scale(1)';
-            }, 150);
+            return;
         }
+
+        this.playSound('menu-click');
+        this.showNotification(`Used ${itemName}!`, 'success');
+
+        // Add visual feedback
+        item.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            item.style.transform = 'scale(1)';
+        }, 150);
     }
 
     setupMobileMenu() {
@@ -632,8 +762,9 @@ class RetroPortfolio {
         mobileToggle.setAttribute('aria-label', 'Toggle Menu');
         
         document.body.appendChild(mobileToggle);
-        
-        const gameMenu = document.querySelector('.game-menu');
+
+        const gameMenu = this.dom.gameMenu || document.querySelector('.game-menu');
+        if (!gameMenu) return;
         
         mobileToggle.addEventListener('click', () => {
             gameMenu.classList.toggle('mobile-open');
